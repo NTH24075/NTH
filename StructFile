@@ -1,0 +1,44 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<math.h>
+#include<string.h>
+struct ToaDo{
+	float x,y;
+};
+void NhapTuFile(ToaDo **a,int *n){
+	char file[30];
+	printf("NhapTenFile : ");
+	fgets(file, 30, stdin);
+	file[strlen(file)-1]='\0';
+	FILE* f=fopen(file,"rt");
+	if(f==NULL) printf("%s",file);
+	fscanf(f,"%d",n);
+	*a=(ToaDo*)malloc(sizeof(ToaDo)*(*n));
+	int i;
+	for(i=0;i<*n;i++){
+		fscanf(f,"%f%f",&(*a)[i].x,&(*a)[i].y);
+	}
+
+	fclose(f);
+}
+void In(ToaDo *a,int n){
+	int i;
+	for(i=0;i<n;i++){
+		printf("%.2f %.2f\n",a[i].x,a[i].y);
+	}
+}
+void InTongKhoangCach(ToaDo *a,int n){
+	float s=0.0;
+	for(int i=0;i<n;i++){
+		s+=fabs(a[i].y);
+	}
+	printf("%.2f\n",s);
+}
+//float DoDai
+int main(){
+	ToaDo *a;int n;
+	NhapTuFile(&a,&n);
+	In(a,n);
+	InTongKhoangCach(a,n);
+	
+}
