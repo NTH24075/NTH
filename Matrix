@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void nhap(int **a, int *n){
+	FILE *f=fopen("a1.txt","r");
+    fscanf(f,"%d", n);
+    *a = (int*)malloc(n * n * sizeof(int)); 
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < n; j++){
+            fscanf(f,"%d", (*a + i*n + j)); 
+        }
+    }
+}
+
+int in(int *a, int n){
+    int sum = 0;
+    for(int i = 0; i < n; i++){
+    	if(*(a + i*n + i)%2==0)
+        	sum += *(a + i*n + i); 
+    }
+    return sum;
+}
+
+int main(){
+    int *a, n;
+    nhap(&a,&n); 
+    printf("%d", in(a, n));
+    return 0;
+}
