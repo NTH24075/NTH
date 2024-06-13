@@ -1,0 +1,81 @@
+#include<bits/stdc++.h>
+typedef struct PS{
+	int x,y;
+}PS;
+void DocFile(PS **a,int *n ){
+	FILE *f=fopen("ps.txt","r");
+	if(f==NULL) {
+		printf("Khong mo duoc file");
+		return;
+	}
+	fscanf(f,"%d\n",n);
+	*a=(PS*)malloc(sizeof(PS)**n);
+	for(int i=0;i<*n;i++)
+	{
+		fscanf(f,"%d %d\n",&(*a)[i].x,&(*a)[i].y);
+	}
+	fclose(f);
+}
+void out(PS *a,int n){
+	for(int i=0;i<n;i++){
+		printf("%d %d\n",a[i].x,a[i].y);
+	}
+}
+void pslonnhat(PS *a,int n){
+	float s=1.0*a[0].x/a[0].y;
+	int j=0;
+	for(int i=1;i<n;i++){
+		if(1.0*a[i].x/a[i].y > s) {
+			j=i;
+			s=1.0*a[i].x/a[i].y;
+		}
+	}
+	printf("Max: %d %d\n",a[j].x,a[j].y);
+}
+int UCLN(int a,int b){
+	if(b==0) return a;
+	return UCLN(b,a%b);
+}
+int BCNN(int a,int b){
+	int s=UCLN(a,b);
+	return a/s*b;
+}
+void rutgon(PS *a,int n){
+	FILE *fo=fopen("psrutgon.txt","w");
+	for(int i=0;i<n;i++){
+		int s=UCLN(a[i].x,a[i].y);
+		if(a[i].y<0){
+			a[i].x*=-1;
+			a[i].y*=-1;
+		}
+		s=abs(s);
+		fprintf(fo,"%d %d\n",a[i].x/s,a[i].y/s);
+	}
+}
+void tong(PS *a,int n){
+	int s=a[0].y;
+	for(int i=2;i<n;i++)
+	{
+		s=BCNN(s,a[i].y);
+	}
+	int tu=0;
+	for(int i=0;i<n;i++){
+		tu+=a[i].x*(s/a[i].y);
+	}
+	int x=UCLN(tu,s);
+	printf("%d %d\n",tu/x,s/x);
+}
+int main(){
+	PS *a;int n;
+	DocFile(&a,&n);
+	out(a,n);
+	pslonnhat(a,n);
+	rutgon(a,n);
+	tong(a,n);
+}
+//5
+//4 5
+//6 7
+//2 -6
+//7 6
+//-9 -5
